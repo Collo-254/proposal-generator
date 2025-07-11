@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-export default function ProposalForm() {
+export default function ProposalPage() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -79,106 +83,126 @@ export default function ProposalForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8 transition-colors duration-300">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">Proposal Generator</h1>
-        <div className="flex items-center space-x-4">
-          <ThemeToggle />
-          <Link href="/proposals" className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
-            View Proposals
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl mx-auto transform transition-all duration-300 hover:shadow-xl">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">Submit New Proposal</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-        {!response ? (
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="firstName" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">First Name</label>
-              <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div>
-              <label htmlFor="lastName" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Last Name</label>
-              <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div>
-              <label htmlFor="companyName" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Company Name</label>
-              <input type="text" id="companyName" name="companyName" value={formData.companyName} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Email</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div className="md:col-span-2">
-              <label htmlFor="website" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Website</label>
-              <input type="url" id="website" name="website" value={formData.website} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" />
-            </div>
-            <div className="md:col-span-2">
-              <label htmlFor="problem" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Problem</label>
-              <textarea id="problem" name="problem" value={formData.problem} onChange={handleChange} rows={4} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required></textarea>
-            </div>
-            <div className="md:col-span-2">
-              <label htmlFor="solution" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Solution</label>
-              <textarea id="solution" name="solution" value={formData.solution} onChange={handleChange} rows={4} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required></textarea>
-            </div>
-            <div className="md:col-span-2">
-              <label htmlFor="scope" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Scope</label>
-              <textarea id="scope" name="scope" value={formData.scope} onChange={handleChange} rows={4} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required></textarea>
-            </div>
-            <div>
-              <label htmlFor="cost" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Cost</label>
-              <input type="text" id="cost" name="cost" value={formData.cost} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div>
-              <label htmlFor="howSoon" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">How Soon</label>
-              <input type="text" id="howSoon" name="howSoon" value={formData.howSoon} onChange={handleChange} className="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 transition-all duration-200" required />
-            </div>
-            <div className="md:col-span-2 flex justify-center">
-              <button
-                type="submit"
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-              >
-                Generate Proposal
-              </button>
-            </div>
-          </form>
-        ) : (
-          <div className="text-center">
-            <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Proposal Generated!</h2>
-            {pdfBlobUrl && (
-              <a
-                href={pdfBlobUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-4 shadow-md transition-all duration-200 transform hover:scale-105"
-                download="proposal.pdf"
-              >
-                Download PDF
-              </a>
-            )}
-            {/* PPTX download would be handled similarly if n8n returns pptxBase64 */}
-            {!pdfBlobUrl && (
-              <p className="text-gray-700 dark:text-gray-300">No download links or binary data provided by the webhook.</p>
-            )}
-            <button
-              onClick={() => {
-                setResponse(null);
-                setPdfBlobUrl(null);
-              }}
-              className="mt-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-            >
-              Submit Another Proposal
-            </button>
+    <div className="w-full py-12">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-3xl font-extrabold">Proposal Generator</h1>
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            <Button variant="outline" asChild>
+              <Link href="/proposals">View Proposals</Link>
+            </Button>
+            <Button variant="destructive" onClick={handleLogout}>Logout</Button>
           </div>
-        )}
+        </div>
+        <div className="mx-auto max-w-3xl space-y-8">
+          <div className="space-y-2 text-center">
+            <h1 className="text-3xl font-bold">Submit New Proposal</h1>
+            <p className="text-gray-500 dark:text-gray-400">
+              Fill out the form below to generate a new proposal.
+            </p>
+          </div>
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          {!response ? (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input id="firstName" name="firstName" placeholder="Enter your first name" value={formData.firstName} onChange={handleChange} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input id="lastName" name="lastName" placeholder="Enter your last name" value={formData.lastName} onChange={handleChange} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="companyName">Company Name</Label>
+                <Input id="companyName" name="companyName" placeholder="Enter your company name" value={formData.companyName} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" placeholder="Enter your email" type="email" value={formData.email} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="website">Website</Label>
+                <Input id="website" name="website" placeholder="Enter your website" value={formData.website} onChange={handleChange} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="problem">Problem</Label>
+                <Textarea
+                  className="min-h-[120px]"
+                  id="problem"
+                  name="problem"
+                  placeholder="Describe the problem you are solving"
+                  value={formData.problem}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="solution">Solution</Label>
+                <Textarea
+                  className="min-h-[120px]"
+                  id="solution"
+                  name="solution"
+                  placeholder="Describe your proposed solution"
+                  value={formData.solution}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="scope">Scope</Label>
+                <Textarea
+                  className="min-h-[120px]"
+                  id="scope"
+                  name="scope"
+                  placeholder="Outline the scope of the project"
+                  value={formData.scope}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="cost">Cost</Label>
+                  <Input id="cost" name="cost" placeholder="Enter the project cost" value={formData.cost} onChange={handleChange} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="howSoon">How Soon</Label>
+                  <Input id="howSoon" name="howSoon" placeholder="Enter the project timeline" value={formData.howSoon} onChange={handleChange} />
+                </div>
+              </div>
+              <Button className="w-full" size="lg" type="submit">
+                Generate Proposal
+              </Button>
+            </form>
+          ) : (
+            <div className="text-center">
+              <h2 className="text-xl font-bold mb-4">Proposal Generated!</h2>
+              {pdfBlobUrl && (
+                <a
+                  href={pdfBlobUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mr-4 shadow-md transition-all duration-200 transform hover:scale-105"
+                  download="proposal.pdf"
+                >
+                  Download PDF
+                </a>
+              )}
+              {!pdfBlobUrl && (
+                <p>No download links or binary data provided by the webhook.</p>
+              )}
+              <Button
+                onClick={() => {
+                  setResponse(null);
+                  setPdfBlobUrl(null);
+                }}
+                className="mt-4"
+              >
+                Submit Another Proposal
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,39 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface ProposalSummary {
   id: string;
@@ -50,56 +82,144 @@ export default function ProposalsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-        <p className="text-gray-700 dark:text-gray-300">Loading proposals...</p>
+      <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        <div className="flex flex-col sm:gap-4 sm:py-4">
+          <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+            <div className="relative ml-auto flex-1 md:grow-0">
+              <h1 className="text-3xl font-extrabold">Your Proposals</h1>
+            </div>
+            <ThemeToggle />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
+                  <img
+                    src="/placeholder-user.jpg"
+                    width={36}
+                    height={36}
+                    alt="Avatar"
+                    className="overflow-hidden rounded-full"
+                  />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </header>
+          <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Proposals</CardTitle>
+                <CardDescription>
+                  A list of all the proposals you have generated.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p>Loading proposals...</p>
+              </CardContent>
+            </Card>
+          </main>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-8 transition-colors duration-300">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">Your Proposals</h1>
-        <div className="flex items-center space-x-4">
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col sm:gap-4 sm:py-4">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+          <div className="relative ml-auto flex-1 md:grow-0">
+            <h1 className="text-3xl font-extrabold">Your Proposals</h1>
+          </div>
           <ThemeToggle />
-          <Link href="/proposal" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105">
-            New Proposal
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-      {proposals.length === 0 ? (
-        <p className="text-center text-gray-700 dark:text-gray-300">No proposals generated yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {proposals.map((proposal) => (
-            <div key={proposal.id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl transform hover:scale-105">
-              <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{proposal.companyName}</h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-2"><strong>Problem:</strong> {proposal.problem.substring(0, 100)}...</p>
-              <p className="text-gray-700 dark:text-gray-300 mb-4"><strong>Solution:</strong> {proposal.solution.substring(0, 100)}...</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Generated on: {new Date(proposal.createdAt).toLocaleDateString()}</p>
-              {proposal.proposalUrl && (
-                <a
-                  href={proposal.proposalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-                >
-                  View Proposal
-                </a>
+          <Button asChild>
+            <Link href="/proposal">New Proposal</Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
+                <img
+                  src="/placeholder-user.jpg"
+                  width={36}
+                  height={36}
+                  alt="Avatar"
+                  className="overflow-hidden rounded-full"
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>Proposals</CardTitle>
+              <CardDescription>
+                A list of all the proposals you have generated.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+              {proposals.length === 0 ? (
+                <p className="text-center">No proposals generated yet.</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Company</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="hidden md:table-cell">Created at</TableHead>
+                      <TableHead>
+                        <span className="sr-only">Actions</span>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {proposals.map((proposal) => (
+                      <TableRow key={proposal.id}>
+                        <TableCell className="font-medium">{proposal.companyName}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline">Pending</Badge>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">{new Date(proposal.createdAt).toLocaleDateString()}</TableCell>
+                        <TableCell>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button>View Summary</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>{proposal.companyName}</DialogTitle>
+                                <DialogDescription>
+                                  <p><strong>Problem:</strong> {proposal.problem}</p>
+                                  <p><strong>Solution:</strong> {proposal.solution}</p>
+                                </DialogDescription>
+                              </DialogHeader>
+                            </DialogContent>
+                          </Dialog>
+                          {proposal.proposalUrl && (
+                            <Button asChild>
+                              <a href={proposal.proposalUrl} target="_blank" rel="noopener noreferrer">View Proposal</a>
+                            </Button>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               )}
-            </div>
-          ))}
-        </div>
-      )}
+            </CardContent>
+          </Card>
+        </main>
+      </div>
     </div>
   );
 }
